@@ -53,7 +53,7 @@
      * scrollpress plugin
      * @type {Function}
     */
-    $.fn.scrollpress = function (options) {
+    $.fn.scrollPress = function (options) {
         
         /**
          * scrollpress default settings
