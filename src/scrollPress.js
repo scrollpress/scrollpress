@@ -1,3 +1,10 @@
+/*
+ * plugin name: scrollpress
+ * Author: el-oz
+ * Github: https://github.com/
+ * Description: Make smooth animation on scrollTop
+ * License: MIT
+*/
 
 ;(function ( $, window, document, undefined ) {
     'use strict';
@@ -62,7 +69,7 @@
         var defaults = {
             
             /**
-             * trigger scroll on press functions 
+             * trigger scroll functions 
              * when press on any key that makes change on scrollTop (pg up/space/...)
              * @type {Boolean}
             */
@@ -90,7 +97,7 @@
                  * put the full icon html here example(<i class='fa fa-angle-double-up'></i>)
                  * @type {String}
                 */
-                icon: null,
+                icon: "<i class='fa fa-angle-up'></i>",
                 
                 /**
                  * new container for scroll to top button
@@ -104,11 +111,6 @@
                  * @type {Number}
                 */
                 threshold: $window.innerHeight() / 3,
-
-                /**
-                 * @type {String}
-                */
-                customClass: '',
                 
                 /**
                  * @type {Boolean}
@@ -143,9 +145,8 @@
                 fadeAnimation: {
                     slide: true,
                     scale: true,
-                    bounce: true,
+                    bounce: false,
                     rotate: false,
-                    opacity: false
                 },
                 
                 /**
@@ -153,13 +154,6 @@
                  * @type {String}
                 */
                 fadeInClass: '',
-                
-                /**
-                 * to add style when hover on btn
-                 * 
-                 * @type {String}
-                */
-                hoverClass: '',
                 
                 /**
                  * animation added on mousedown event
@@ -178,7 +172,7 @@
                         width: '100%',
                         height: '100%',
                         backgroundColor: '#96d0ff',
-                        borderRadius: null,
+                        borderRadius: null
                     },
                     
                     spreadBorder: {
@@ -192,10 +186,9 @@
                         borderWidth: '4px',
                         borderStyle: 'solid',
                         borderColor: '#e1e1e1',
-                        borderRadius: null,
+                        borderRadius: null
                     }
-                },
-                
+                },      
                 
                 /**
                  * to tigger css animation on hover
@@ -210,7 +203,6 @@
             scrollOnClick: {
                 
                 /**
-                 * selector or array with selectors
                  * @type {JQuery selector, array} 
                 */ 
                 clickOn: null,
@@ -228,7 +220,6 @@
                 autoDetect: true
             },
             
-            
             scrollOnClick_multi: {
                 0: {
                     clickOn: null,
@@ -242,13 +233,17 @@
                     duration: null,
                     easing: null
                 }
-            },
-            
+            },      
             
             /**
              * @type {Boolean}
             */
             btn_state: null,
+            
+            /**
+             * btn arrow icon
+            */
+            btn_icon: null,
             
             /**
              * @type {Jquery selector}
@@ -259,6 +254,11 @@
              * @type {Number}
             */
             btn_threshold: null,
+            
+            /**
+             * disable incase of styling with external stylesheet
+            */
+            btn_inlineStyle: null,
             
             /**
              * @type {Object}
@@ -274,11 +274,6 @@
              * @type {String}
             */
             btn_fadeInClass: null,
-            
-            /**
-             * @type {String}
-            */
-            btn_hoverClass: null,
             
             /**
              * @type {Boolean}
@@ -307,15 +302,21 @@
         */
         settings = $.extend(true, defaults, options);
         
-        //bool
+        //boolean
         (defaults.btn_state != null) ? defaults.btn.state = defaults.btn_state : $.noop();
+        
+        //str
+        (defaults.btn_icon != null) ? defaults.btn.icon = defaults.btn_icon : $.noop();
         
         //jq selector
         (defaults.btn_container != null) ? defaults.btn.container = defaults.btn_container : $.noop();
         
         //num
         (defaults.btn_threshold != null) ? defaults.btn.threshold = defaults.btn_threshold : $.noop();
-
+        
+        // boolean
+        (defaults.btn_inlineStyle != null) ? defaults.btn.inlineStyle = defaults.btn_inlineStyle : $.noop();
+        
         //obj
         for (var st in defaults.btn_style) {
             if (defaults.btn_style[st]) {
@@ -336,9 +337,6 @@
 
         //str
         (defaults.btn_fadeInClass != null) ? defaults.btn.fadeInClass = defaults.btn_fadeInClass : $.noop();
-        
-        //str
-        (defaults.btn_hoverClass != null) ? defaults.btn.hoverClass = defaults.btn_hoverClass : $.noop();
         
         //bool
         (defaults.btn_clickAnimation_bounce != null) ? defaults.btn.clickAnimation.bounce = defaults.btn_clickAnimation_bounce : $.noop();
@@ -392,13 +390,6 @@
                 defaults.btn.outerHTML = defaults.btn.outerHTML.replace(/(<\/div><\!--\/\.scroll-btn-->)/, function (e) {
                     return defaults.btn.clickAnimation.spreadBorder.outerHTML + e;
                 });
-            }
-            
-            // Button custom class to style button
-            if ( defaults.btn.customClass ) {
-                 defaults.btn.outerHTML = defaults.btn.outerHTML.replace(/class=("|')>/, function (e) {
-                      return e + defaults.btn.customClass + ' ';
-                 });
             }
             
             // append btn to body 
@@ -575,6 +566,8 @@
                 defaults.btn.fadeInClass += ' rotate';
             }
             
+            
+            
             // button click animation class
             
             if (defaults.btn.clickAnimation.bounce) {
@@ -628,18 +621,6 @@
             }
             
             is_passed();
-            
-            //Button hover function
-            scrollBtn.hover(function () {
-                scrollBtn.removeClass(defaults.btn.hoverClass);
-                scrollBtn.addClass(defaults.btn.hoverClass);
-
-                // callback function on mouseout
-            }, function () {
-                scrollBtn.removeClass(defaults.btn.hoverClass);
-            });
-            
-            
 
             // Scroll to top on button click
             scrollBtn.on('click', function (e) {
