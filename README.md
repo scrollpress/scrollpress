@@ -37,33 +37,31 @@ scrollOnClick_multi | Object |  | Like scrollOnClick but with putting options in
 ```javascript
 
 $(window).scrollPress({
+            scrollPress: true,
+            
+            // Global animation duration
+            duration: 1000,
+            
+            // Global animation timing function
+            easing: 'easeInOutCubic',
+            
             btn_state: null,
             
-            /**
-             * btn arrow icon
-            */
+            // btn arrow icon
             btn_icon: "<i class='fa fa-angle-up'></i>",
             
             /**
-             * @type {Jquery selector}
+             * type {Jquery selector}
              * example: $('.footer-element-scrollToTop')
             */
             btn_container: null,
             
-            /**
-             * @type {Number}
-             * example: $window.innerHeight()/3
-            */
-            btn_threshold: null,
+            // type {Number}
+            btn_threshold: $window.innerHeight()/3,
             
-            /**
-             * disable incase of styling with external stylesheet
-            */
+            // disable incase of styling with external stylesheet
             btn_inlineStyle: true,
             
-            /**
-             * @type {Object}
-            */
             btn_style: {
                 zIndex: '999',
 
@@ -86,9 +84,6 @@ $(window).scrollPress({
                 animationDelay: ''
             },
             
-            /**
-             * @type {Object}
-            */
             btn_fadeAnimation: {
                 slide: true,
                 scale: true,
@@ -96,19 +91,12 @@ $(window).scrollPress({
                 rotate: false,
             },
             
-            /**
-             * @type {String}
-            */
+            // type {String}
             btn_fadeInClass: null,
             
-            /**
-             * @type {Boolean}
-            */
+            // type {Boolean}
             btn_clickAnimation_bounce: false,
             
-            /**
-             * @type {Object}
-            */
             btn_clickAnimation_bubble: {
                 state: true,
                 outerHTML: '<div class="click-bubble-container"><div class="click-bubble"></div></div><!--/.click-bubble-->',
@@ -121,9 +109,6 @@ $(window).scrollPress({
                 borderRadius: null,
             },
             
-            /**
-             * @type {Object}
-            */
             btn_clickAnimation_spreadBorder: {
                 state: true,
                 outerHTML: '<div class="spread-border"></div>\<!--/.spread-border-->',
@@ -138,21 +123,20 @@ $(window).scrollPress({
                 borderRadius: null
             },
             
-            /**
-             * @type {String}
-            */
+            //type {String}
             btn_clickClass: null,
+            
              /*
              * scroll to target offset when click on selector
             */
             scrollOnClick: {
                 
-                // @type {JQuery selector} 
+                // type {JQuery selector} 
                 clickOn: null,
                 
                 /**
                  * unique selector(preferred id)
-                 * @type {JQuery selector} 
+                 * type {JQuery selector} 
                 */
                 scrollTo: null,
                 
