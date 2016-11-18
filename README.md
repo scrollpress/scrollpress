@@ -5,32 +5,6 @@ ScrollPress is a JQuery plugin to make smooth animations on scroll top.
 # setup
 $(window).scrollPress({options});
 
-# options
- Options   |  Type    |  Default value    |  Description
----------- | :------: | :---------------: | -------------
-scrollPress | Boolean |        true       | To animate scrollTop when press on any key that makes changes on scrollTop (pg up/space/...)
-duration    | Number  |        1000       | Duration of scrollTop animation
-easing      | String  |   easeInOutCubic  | Easing function of scrollTop animation
-btn_state   | Boolean |       true        | Scroll to top button
-btn_icon    | String  | \<i class='fa fa-angle-up'>\</i> | Scroll to top arrow
-btn_container | JQuery Selector | null | Scroll to top botton container, to make it relative to element instead of screen. example: to put button at footer.
-btn_threshold | Number | $window.innerHeight()/3 | To show scroll to top button when scrollTop passes it.
-btn_inlineStyle | Boolean | true | Disable incase of styling with external stylesheet
-btn_style | Object | style properties | Scroll to top button style
-btn_fadeAnimation | Object |  slide/ scale | Buttom animation when scroll to passes threshold
-fadeInClass | String | btn_fadeAnimation classes | Class added to button when scroll to passes threshold
-btn_clickAnimation_bounce | Boolean | false | Add bounce animtion when click on button
-btn_clickAnimation_bubble | Object  |       | Add Bubble animtion when click on button
-btn_clickAnimation_spreadBorder | Object  |       | Add spread border animtion when click on button
-btn_clickClass | String | btn_clickAnimation classes | Add class when click on button
-scrollOnClick | Object |    | scroll to target when click on element
-<span>&emsp;&emsp;&emsp;&emsp;&emsp;autoDetect</span> | Boolean | true | To animate scrollTop when click on anchor that hold element id in it's href
-<span>&emsp;&emsp;&emsp;&emsp;&emsp;clickOn</span> | JQuery selector | Null | To move scollTop to target when click on it
-<span>&emsp;&emsp;&emsp;&emsp;&emsp;scrollTo</span> | JQuery selector | Null | clickOn Target
-<span>&emsp;&emsp;&emsp;&emsp;&emsp;duration</span> | Number | 1400 | ScrollTop animation duration
-<span>&emsp;&emsp;&emsp;&emsp;&emsp;easing</span> | String | easing | ScrollTop animation timing function
-scrollOnClick_multi | Object |  | Like scrollOnClick but with putting options in another Object (label). Example: scrollOnClick_multi: { home: { clickOn: ... },</br> about: { ... } }
-
 
 # Options in act
 
@@ -163,3 +137,29 @@ $(window).scrollPress({
             }
 });
 ```
+
+# options
+ Options   |  Type    |  Default value    |  Description
+---------- | :------: | :---------------: | -------------
+scrollPress | Boolean |        true       | To animate scrollTop when press on any key that makes changes on scrollTop (pg up/space/...)
+duration    | Number  |        1000       | Duration of scrollTop animation
+easing      | String  |   easeInOutCubic  | Easing function of scrollTop animation
+btn_state   | Boolean |       true        | Scroll to top button
+btn_icon    | String  | \<i class='fa fa-angle-up'>\</i> | Scroll to top arrow
+btn_container | JQuery Selector | null | Scroll to top botton container, to make it relative to element instead of screen. example: to put button at footer.
+btn_threshold | Number | $window.innerHeight()/3 | To show scroll to top button when scrollTop passes it.
+btn_inlineStyle | Boolean | true | Disable incase of styling with external stylesheet
+btn_style | Object | style properties | Scroll to top button style
+btn_fadeAnimation | Object |  slide/ scale | Buttom animation when scroll to passes threshold
+fadeInClass | String | btn_fadeAnimation classes | Class added to button when scroll to passes threshold
+btn_clickAnimation_bounce | Boolean | false | Add bounce animtion when click on button
+btn_clickAnimation_bubble | Object  |       | Add Bubble animtion when click on button
+btn_clickAnimation_spreadBorder | Object  |       | Add spread border animtion when click on button
+btn_clickClass | String | btn_clickAnimation classes | Add class when click on button
+scrollOnClick | Object |    | scroll to target when click on element
+<span>&emsp;&emsp;&emsp;&emsp;&emsp;autoDetect</span> | Boolean | true | To animate scrollTop when click on anchor that hold element id in it's href
+<span>&emsp;&emsp;&emsp;&emsp;&emsp;clickOn</span> | JQuery selector | Null | To move scollTop to target when click on it
+<span>&emsp;&emsp;&emsp;&emsp;&emsp;scrollTo</span> | JQuery selector | Null | clickOn Target
+<span>&emsp;&emsp;&emsp;&emsp;&emsp;duration</span> | Number | 1400 | ScrollTop animation duration
+<span>&emsp;&emsp;&emsp;&emsp;&emsp;easing</span> | String | easing | ScrollTop animation timing function
+scrollOnClick_multi | Object |  | Like scrollOnClick but with putting options in another Object (label). Example: scrollOnClick_multi: { home: { clickOn: ... },</br> about: { ... } }
