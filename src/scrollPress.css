@@ -3,19 +3,6 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-html,body{ 
-	width:100%;
-	height:100%;
-}
-
-.div {
-    width: 100%;
-    height: 400px;
-    margin-bottom: 30px;
-    transition: all 1s ease;
-    background-color: #0bbcd6
-}
-
 .scroll-btn {
     display: block;
     right: 20px;
