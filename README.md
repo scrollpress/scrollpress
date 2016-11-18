@@ -38,20 +38,13 @@ $(window).scrollPress({
             
             btn_style: {
                 zIndex: '999',
-
-                // 100% if continer enabled
                 width: '40px',
                 height: '40px',
-
-                // absolute if container enabled
                 position: 'fixed',
-
-                // auto if container true
                 right: '20px',
                 bottom: '20px',
                 left: 'auto',
                 top: 'auto',
-
                 backgroundColor: 'white',
                 borderRadius: '14%',
                 transition: 'all 1s ease',
