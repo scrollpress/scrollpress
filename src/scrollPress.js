@@ -83,38 +83,29 @@
             
             /**
              * scroll to top button
-             * @type {Boolean}
+             * @type {Object}
             */
             btn: {
                 state: true,
                 
-                /**
-                 * @type {String}
-                */
                 outerHTML: "<div class='scroll-btn'><div class='sb-layer' style='z-index:998;'></div></div><!--/.scroll-btn-->",
                 
                 /**
-                 * put the full icon html here example(<i class='fa fa-angle-double-up'></i>)
+                 * Button icon
                  * @type {String}
                 */
                 icon: "<i class='fa fa-angle-up'></i>",
                 
                 /**
                  * new container for scroll to top button
-                 * must be relative position
+                 * should be relative position
                  * @type {JQuery selector}
                 */
                 container: null,
 
-                /**
-                 * threshold to show button when scrollTop passes it
-                 * @type {Number}
-                */
+                // threshold to show button when scrollTop passes it
                 threshold: $window.innerHeight() / 3,
                 
-                /**
-                 * @type {Boolean}
-                */
                 inlineStyle: true,
                 
                 style: {
@@ -139,9 +130,7 @@
                     animationDelay: ''
                 },
                 
-                /**
-                 * trigger when scroll top pass threshold
-                */
+                // trigger when scroll top pass threshold
                 fadeAnimation: {
                     slide: true,
                     scale: true,
@@ -149,10 +138,7 @@
                     rotate: false,
                 },
                 
-                /**
-                 * class added when scrollTop greater than btn.threshold
-                 * @type {String}
-                */
+                // class added when scrollTop greater than btn.threshold
                 fadeInClass: '',
                 
                 /**
@@ -203,7 +189,7 @@
             scrollOnClick: {
                 
                 /**
-                 * @type {JQuery selector, array} 
+                 * @type {JQuery selector} 
                 */ 
                 clickOn: null,
                 
@@ -302,46 +288,37 @@
         */
         settings = $.extend(true, defaults, options);
         
-        //boolean
+        
         (defaults.btn_state != null) ? defaults.btn.state = defaults.btn_state : $.noop();
         
-        //str
         (defaults.btn_icon != null) ? defaults.btn.icon = defaults.btn_icon : $.noop();
         
-        //jq selector
         (defaults.btn_container != null) ? defaults.btn.container = defaults.btn_container : $.noop();
         
-        //num
         (defaults.btn_threshold != null) ? defaults.btn.threshold = defaults.btn_threshold : $.noop();
         
-        // boolean
         (defaults.btn_inlineStyle != null) ? defaults.btn.inlineStyle = defaults.btn_inlineStyle : $.noop();
         
-        //obj
-        for (var st in defaults.btn_style) {
-            if (defaults.btn_style[st]) {
-                defaults.btn.style[st] = defaults.btn_style[st];
+        for (var key in defaults.btn_style) {
+            if (defaults.btn_style[key]) {
+                defaults.btn.style[key] = defaults.btn_style[key];
             } else {
                 continue;
             }
         }
         
-        //obj
-        for (var st in defaults.btn.fadeAnimation) {
-            if (defaults.btn_fadeAnimation[st]) {
-                defaults.btn.fadeAnimation[st] = defaults.btn_fadeAnimation[st];
+        for (var key in defaults.btn.fadeAnimation) {
+            if (defaults.btn_fadeAnimation[key]) {
+                defaults.btn.fadeAnimation[key] = defaults.btn_fadeAnimation[key];
             } else {
                 continue;
             }
         }
 
-        //str
         (defaults.btn_fadeInClass != null) ? defaults.btn.fadeInClass = defaults.btn_fadeInClass : $.noop();
         
-        //bool
         (defaults.btn_clickAnimation_bounce != null) ? defaults.btn.clickAnimation.bounce = defaults.btn_clickAnimation_bounce : $.noop();
-        
-        //obj
+
         for (var st in defaults.btn.clickAnimation.bubble) {
             if (defaults.btn_clickAnimation_bubble[st]) {
                 defaults.btn.clickAnimation.bubble[st] = defaults.btn_clickAnimation_bubble[st];
@@ -356,15 +333,13 @@
                 continue;
             }
         }
-        
-        //str
+
         (defaults.btn_clickClass != null) ? defaults.btn.clickClass = defaults.btn.btn_clickClass : $.noop();
         
         if ( defaults.btn.state ) {
             
             /*  HTML
             -------------------------------------------
-               * Button HTMLs
                * append animations outer html if enabled
                * add custom class to btn HTML
                * append Button HTMLs to body
@@ -398,12 +373,7 @@
             var scrollBtn = $('.scroll-btn'),
                 sbLayer = scrollBtn.find('.sb-layer');
             
-            /* 
-            -------------------------------------- 
-                * append scrollBtn to container
-            --------------------------------------
-            */
-            
+            // append scrollBtn to container
             if(defaults.btn.container) {
                 scrollBtn.appendTo(defaults.btn.container);  
             }
@@ -415,17 +385,15 @@
             ------------------------------------
             */
             
-            // button css
             if (defaults.btn.inlineStyle) {
                 var btnCss = '',
                     fp;
                 
                 // set button fadeIn animation-delay
                 if (defaults.btn.style.transition) {
-                    //get transition duaration
+                    
                     var transDur = defaults.btn.style.transition.split(' ')[1], 
                         tdua = transDur.split('.');
-                    // reduce duration to fix animation_delay
                     
                     // if splited.length === 1 // no dot in duration (string)
                     if (tdua.length === 1) {
@@ -433,7 +401,7 @@
                             tdua[0].replace(/\d/g, function (e) {
                                 return parseInt(e) * .5;
                             });
-                    
+                        
                     //if first element not null or 0
                     } else if (tdua[0]) {
                         defaults.btn.style.animationDelay = (tdua[0] * .5) + 's';
@@ -453,18 +421,18 @@
                      * change fixed position to absolute
                      * change button position to top/left of the container
                      * change button width/height to 100%
-                     /
-                     * add style to button
                     */
 
                     for (let p in defaults.btn.style) {
                         
                         if (defaults.btn.style[p]) {
-                            // replace cap with css property
-                            fp = sp.replace(/[A-Z]/g, function (e) {
-                                return '-' + e.toLowerCase();
-                            });
-
+                            fp = p;
+                            if (/[A-Z]/g.test(p)) {
+                                fp = p.replace(/[A-Z]/g, function (e) {
+                                    return '-' + e.toLowerCase();
+                                });
+                            }
+                          
                             if (/^(position)/i.test(p)) {
                                 btnCss += fp + ': ' + 'absolute' + ';';
                             } else if (/^(top|left)/i.test(p)) {
@@ -486,9 +454,12 @@
                 } else {
                     for (let sp in defaults.btn.style) {
                         if (defaults.btn.style[sp]) {
-                            fp = sp.replace(/[A-Z]/g, function (e) {
-                                return '-' + e.toLowerCase();
-                            });
+                            fp = p;
+                            if (/[A-Z]/g.test(p)) {
+                                fp = sp.replace(/[A-Z]/g, function (e) {
+                                    return '-' + e.toLowerCase();
+                                });
+                            }
                             btnCss +=  fp + ': ' + defaults.btn.style[sp] + ';';
                         }
                     }
@@ -630,7 +601,6 @@
             });
                          
             scrollBtn.on('touchstart mousedown', function (e) {
-                // trigger btn click animation on mousedown
                 scrollBtn.removeClass(defaults.btn.clickClass);
                 
                 // make bubble position relative to mouse click position
@@ -642,7 +612,6 @@
                     
                     clickBubble.css({ left: bpx + 'px', top: bpy + 'px' });
                 }
-
                 scrollBtn.addClass(defaults.btn.clickClass);
             });
             
