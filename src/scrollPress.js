@@ -5,7 +5,6 @@
  * Description: Make smooth animation on scrollTop
  * License: MIT
 */
-
 ;(function ( $, window, document, undefined ) {
     'use strict';
     
@@ -454,8 +453,8 @@
                 } else {
                     for (let sp in defaults.btn.style) {
                         if (defaults.btn.style[sp]) {
-                            fp = p;
-                            if (/[A-Z]/g.test(p)) {
+                            fp = sp;
+                            if (/[A-Z]/g.test(sp)) {
                                 fp = sp.replace(/[A-Z]/g, function (e) {
                                     return '-' + e.toLowerCase();
                                 });
