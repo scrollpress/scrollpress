@@ -139,12 +139,12 @@ duration    | Number  |        1000       | Duration of scrollTop animation
 easing      | String  |   easeInOutCubic  | Easing function of scrollTop animation
 btn_state   | Boolean |       true        | Scroll to top button
 btn_icon    | String  | \<i class='fa fa-angle-up'>\</i> | Scroll to top arrow
-btn_container | JQuery Selector | null | Scroll to top botton container, to make it relative to element instead of screen. example: to put button at footer.
+btn_container | JQuery Selector | null | Scroll to top button container, to make it relative to element instead of screen. example: to put button at footer.
 btn_threshold | Number | $window.innerHeight()/3 | To show scroll to top button when scrollTop passes it.
 btn_inlineStyle | Boolean | true | Disable incase of styling with external stylesheet
 btn_style | Object | style properties | Scroll to top button style
-btn_fadeAnimation | Object |  slide/ scale | Buttom animation when scroll to passes threshold
-fadeInClass | String | btn_fadeAnimation classes | Class added to button when scroll to passes threshold
+btn_fadeAnimation | Object |  slide/ scale | Button animation when scroll top passes threshold
+fadeInClass | String | btn_fadeAnimation classes | Class added to button when scroll top passes threshold
 btn_clickAnimation_bounce | Boolean | false | Add bounce animtion when click on button
 btn_clickAnimation_bubble | Object  |       | Add Bubble animtion when click on button
 btn_clickAnimation_spreadBorder | Object  |       | Add spread border animtion when click on button
