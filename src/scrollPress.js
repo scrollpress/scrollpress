@@ -301,16 +301,12 @@
         for (var key in defaults.btn_style) {
             if (defaults.btn_style[key]) {
                 defaults.btn.style[key] = defaults.btn_style[key];
-            } else {
-                continue;
             }
         }
         
         for (var key in defaults.btn.fadeAnimation) {
             if (defaults.btn_fadeAnimation[key]) {
                 defaults.btn.fadeAnimation[key] = defaults.btn_fadeAnimation[key];
-            } else {
-                continue;
             }
         }
 
@@ -321,15 +317,11 @@
         for (var st in defaults.btn.clickAnimation.bubble) {
             if (defaults.btn_clickAnimation_bubble[st]) {
                 defaults.btn.clickAnimation.bubble[st] = defaults.btn_clickAnimation_bubble[st];
-            } else {
-                 continue;
             }
         }
         for (var st in defaults.btn.clickAnimation.spreadBorder) {
             if (defaults.btn_clickAnimation_spreadBorder[st]) {
                 defaults.btn.clickAnimation.spreadBorder[st] = defaults.btn_clickAnimation_spreadBorder[st];
-            } else {
-                continue;
             }
         }
 
@@ -630,7 +622,7 @@
             if (defaults.scrollOnClick.autoDetect) {
                 $.each($('a'), function (i,e) {
                     $(e).on('click', function (e) {
-                        var targetHref = e.target.getAttribute('href'),
+                        var targetHref = $(e).attr('href'),
                             scrollOnClick_targetOT;
                         
                         if ( /^#/.test(targetHref) ) {
@@ -638,14 +630,16 @@
                             scrollOnClick_targetOT = $(targetHref).offset().top;
                             
                             // fix scrollTop incase of target scrollTop greater then viewport scrollTop
-                            if (scrollOnClick_targetOT > dh) {
-                                $docRoot.stop().animate({
-                                    scrollTop: dh + 'px'
-                                }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing, function () {target = dh;} );
-                            } else {
+                            if (scrollOnClick_targetOT < dh) {
+                                
                                 $docRoot.stop().animate({
                                     scrollTop: scrollOnClick_targetOT + 'px'
                                 }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing, function () {target = $docRoot.scrollTop();} );
+                            
+                            } else {
+                                $docRoot.stop().animate({
+                                    scrollTop: dh + 'px'
+                                }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing, function () {target = dh;} );
                             }
                         }
                     });
