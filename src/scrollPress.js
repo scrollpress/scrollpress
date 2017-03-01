@@ -752,9 +752,12 @@
                             break;
 
                         case keyCodes.space:
-                            e.preventDefault();
-                            downKey(scroll_Len.pg_scroll);
-                            break;
+                            /* Disable space scroll on all inputs */
+                            if (!/(textarea|input)/i.test(document.activeElement.nodeName)) {
+                                e.preventDefault();
+                                downKey(scroll_Len.pg_scroll);
+                                break;
+                            }
 
                         default:
                             $.noop();
