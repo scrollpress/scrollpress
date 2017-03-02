@@ -720,48 +720,41 @@
         
         if (defaults.scrollPress) {
             $(this).on('keydown', function (e) {
+                /* Disable keys scroll on all inputs */
+                if (!/(textarea|input)/i.test(document.activeElement.nodeName)) {
                     switch (e.which) {
                         case keyCodes.pagedown: 
                             e.preventDefault();
                             downKey(scroll_Len.pg_scroll);
                             break;
-
                         case keyCodes.up:
                             e.preventDefault();
                             upKey(scroll_Len.arrow_scroll);
                             break;
-
                         case keyCodes.down:
                             e.preventDefault();
                             downKey(scroll_Len.arrow_scroll);
                             break;
-
                         case keyCodes.pageup:
                             e.preventDefault();
                             upKey(scroll_Len.pg_scroll);
                             break;
-
                         case keyCodes.home:
                             e.preventDefault();
                             homeKey();
                             break;
-
                         case keyCodes.end:
                             e.preventDefault(scroll_Len.end_scroll);
                             endKey();
                             break;
-
                         case keyCodes.space:
-                            /* Disable space scroll on all inputs */
-                            if (!/(textarea|input)/i.test(document.activeElement.nodeName)) {
-                                e.preventDefault();
-                                downKey(scroll_Len.pg_scroll);
-                                break;
-                            }
-                        
+                            e.preventDefault();
+                            downKey(scroll_Len.pg_scroll);
+                            break;
                         default:
                             $.noop();
                     }
+                }
             });
             
             
