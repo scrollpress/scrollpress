@@ -5,6 +5,7 @@
  * Description: Make smooth animation on scrollTop
  * License: MIT
 */
+
 ;(function ( $, window, document, undefined ) {
     'use strict';
     
