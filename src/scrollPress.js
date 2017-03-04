@@ -621,9 +621,9 @@
             
             // scroll on click auto detect function
             if (defaults.scrollOnClick.autoDetect) {
-                $.each($('a'), function (i,e) {
-                    $(e).on('click', function (e) {
-                        var targetHref = $(e).attr('href'),
+                $.each($('a'), function (i,el) {
+                    $(el).on('click', function (e) {
+                        var targetHref = $(el).attr('href'),
                             scrollOnClick_targetOT;
                         
                         if ( /^#/.test(targetHref) ) {
