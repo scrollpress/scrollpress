@@ -1,10 +1,12 @@
-# scrollpress
+# ScrollPress
 ScrollPress is a JQuery plugin to make smooth animations on scroll top.
 > V 1.0
 
-# setup
+# Setup
 $(window).scrollPress({options});
 
+# Demo
+https://scrollpress.github.io/scrollpress/demo-index.html
 
 # Options in act
 
