@@ -131,7 +131,7 @@ header h1 {
 }
 .scroll-y {
     width: 70%;
-    height: 350px;
+    height: 400px;
     margin: 10px 0;
     background-color: #999;
     overflow-y: scroll
