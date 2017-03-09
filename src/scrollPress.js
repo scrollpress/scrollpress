@@ -293,7 +293,6 @@
             btn_clickClass: null,
         };
         
-        
         /**
          * extend options
         */
