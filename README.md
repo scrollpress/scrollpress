@@ -1,14 +1,26 @@
-# ScrollPress
-ScrollPress is a JQuery plugin to make smooth animations on scroll top.
-> V 1.0
+## ScrollPress
+ScrollPress is a JQuery plugin to make smooth animation on scroll top.
+> V 1.3
 
-# Setup
-$(window).scrollPress({options});
+## Features
+ * Animate scroll top
+ * Animate DOM elements scroll top
+ * JQuery UI easing functions
+ * Back to top button
+ * Fade in button with animation
+ * Animation when click on button
+ * Animate self link ( href + ID )
+ * Scroll between elements with custom ease and duration
+ 
+## Setup
+```javascript
+ $(window).scrollPress({options});
+```
 
-# Demo
+## Demo
 https://scrollpress.github.io/scrollpress/demo-index.html
 
-# Options in act
+## Options in act
 
 ```javascript
 
@@ -142,7 +154,7 @@ $(window).scrollPress({
 .scroll-btn:hover .sb-layer { }
 ```
 
-# options
+## options
  Options   |  Type    |  Default value    |  Description
 ---------- | :------: | :---------------: | -------------
 scrollPress | Boolean |        true       | To animate scrollTop when press on any key that makes changes on scrollTop (pg up/space/...)
