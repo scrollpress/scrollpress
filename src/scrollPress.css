@@ -3,6 +3,21 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
+/* Scroll bars style (http://codepen.io/devstreak/pen/dMYgeO)
+ -------------------------------------------------------------*/
+::-webkit-scrollbar
+{
+	width: 11px;
+	background-color: #fff;
+    box-shadow: inset 0 -1px 4px #bbb
+}
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #3b4148;
+}
+
 .scroll-btn {
     display: block;
     right: 20px;
