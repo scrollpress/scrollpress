@@ -3,8 +3,6 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-/* Scroll bars style (http://codepen.io/devstreak/pen/dMYgeO)
- -------------------------------------------------------------*/
 ::-webkit-scrollbar
 {
 	width: 11px;
