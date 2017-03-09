@@ -133,6 +133,15 @@ $(window).scrollPress({
 });
 ```
 
+
+### Class to style scroll to top button
+```css
+.scroll-btn .sb-layer { }
+
+/* Hover style */
+.scroll-btn:hover .sb-layer { }
+```
+
 # options
  Options   |  Type    |  Default value    |  Description
 ---------- | :------: | :---------------: | -------------
