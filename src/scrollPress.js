@@ -6,6 +6,7 @@
  * License: MIT
 */
 
+
 ;(function ( $, window, document, undefined ) {
     'use strict';
     
@@ -37,8 +38,7 @@
         scroll_Len = {
             arrow_scroll: 60,
             pg_scroll: $window.innerHeight(),
-            home_scroll: 0,
-            end_scroll: dh
+            home_scroll: 0
         },
         
         /**
@@ -55,6 +55,17 @@
         spreadBorder,
         
         scrollBtnStyle;
+    
+    // IE 11 fix
+    if (/trident+.*\.net/i.test(window.navigator.appVersion)) {
+        $docRoot = $('html');
+        target = document.documentElement.scrollTop;
+        
+        // in case of reloading page
+        setTimeout(function () {
+            target = window.pageYOffset;
+        }, 100);
+    }
     
     /**
      * scrollpress plugin
@@ -687,13 +698,12 @@
                 }
             }
             
-                
-
+            
             /* ----------------------------
                 * Window Events
             ---------------------------- */
             
-            // stop scroll animation when scroll with mouse
+            // Stop scroll animation when scroll with mouse
             $window.on('mousedown', function (e) {
                 if (e.target.nodeName === 'HTML') {
                     $docRoot.stop();
@@ -707,26 +717,116 @@
                 }
             });
             
-            // check if scrollTop passed btn-threshold on scroll
+            // Check if scrollTop passed btn-threshold on scroll
             $window.on('scroll', function () {
                 is_passed();
             });
             
             // Change page height on resize
-            $window.on('resize', ()=> {
-                scroll_Len.pg_scroll = $window.innerHeight();
+            $window.on('resize', function () {
+                pageLen = $window.innerHeight();
+                if (!is_elementHasScroll)
+                    scrollBottomPos = dh = docHeight - $window.innerHeight();
             });
+            
+            // Change target position when scroll with mousewheel
+            window.onwheel = function (e) { 
+                target = $window.scrollTop();
+            };
             
         } //./defaults.btn
         
+        
         if (defaults.scrollPress) {
+            
+            var scrollBottomPos = dh,
+                pageLen = scroll_Len.pg_scroll,
+                endLen = scroll_Len.end_scroll,
+                parentLoopList = [],
+                clickedElem, elemParent, parentWithScroll, elementToScroll,
+                is_elementHasScroll = false, isActive_parentWithScroll = false;
+            
+            elementToScroll = $docRoot;
+            /**
+             * Scroll element which have visible scroll y till the end or up of it
+            */
+            
+            function scrollDocOpts() {
+                is_elementHasScroll = false;
+                scrollBottomPos = dh;
+                pageLen = scroll_Len.pg_scroll;
+                target = window.pageYOffset;
+                elementToScroll = $docRoot;
+            }
+            
+            function scrollElemOpts() {
+                scrollBottomPos = clickedElem.scrollHeight - parentWithScroll.height();
+                pageLen = parentWithScroll.height();
+                elementToScroll = parentWithScroll;
+            }
+            
+            function parents_loop(elem) {
+                parentLoopList.push(elem);
+                // clicked element
+                clickedElem = parentLoopList[0];
+                // Current parent
+                elemParent = elem.parentNode;
+                if (elemParent.nodeName != 'BODY') {
+                    // if current parent height lower than clicked element height 
+                    if ($(elemParent).height() < clickedElem.scrollHeight) {
+                        parentWithScroll = $(elemParent);
+                        is_elementHasScroll = true;
+                    } else {
+                        parents_loop(elemParent);
+                    }
+                } else {
+                    scrollDocOpts();
+                    isActive_parentWithScroll = false;
+                }
+            }
+            
+            $window.on('click', function (e) {
+                parentLoopList = [];
+                parents_loop(e.target);
+                if (is_elementHasScroll)
+                    target = parentWithScroll.scrollTop();
+            });
+            
             $(this).on('keydown', function (e) {
+                if (is_elementHasScroll) {
+                    // if parent scrolled to top and one of keys to up pressed
+                    // or parent scrolled to down and one of keys to down pressed
+                    // then scroll the document
+                    
+                    if (parentWithScroll.scrollTop() === 0 && /(38|33|36)/.test(e.which)
+                        || parentWithScroll.scrollTop() === (clickedElem.scrollHeight - parentWithScroll.height()) && /(40|34|35|32)/.test(e.which)) 
+                    {
+                        scrollDocOpts();
+                        isActive_parentWithScroll = true;
+                    } else {
+                        isActive_parentWithScroll = false;
+                        scrollElemOpts();
+                    }
+                }
+                
+                if (isActive_parentWithScroll) {
+                    // if parentWithScroll scrolled up and keydown pressed
+                    // or parentWithScroll scrolled down and keyup pressed
+                    if (parentWithScroll.scrollTop() === 0 && /(40|34|35|32)/.test(e.which) ||
+                       parentWithScroll.scrollTop() === (clickedElem.scrollHeight - parentWithScroll.height()) && /(38|33|36)/.test(e.which)) 
+                    {
+                        target = parentWithScroll.scrollTop();
+                        is_elementHasScroll = true;
+                        scrollElemOpts();
+                    }
+                }
+                
                 /* Disable keys scroll on all inputs */
                 if (!/(textarea|input)/i.test(document.activeElement.nodeName)) {
                     switch (e.which) {
                         case keyCodes.pagedown: 
                             e.preventDefault();
-                            downKey(scroll_Len.pg_scroll);
+                            downKey(pageLen);
                             break;
                         case keyCodes.up:
                             e.preventDefault();
@@ -738,19 +838,19 @@
                             break;
                         case keyCodes.pageup:
                             e.preventDefault();
-                            upKey(scroll_Len.pg_scroll);
+                            upKey(pageLen);
                             break;
                         case keyCodes.home:
                             e.preventDefault();
                             homeKey();
                             break;
                         case keyCodes.end:
-                            e.preventDefault(scroll_Len.end_scroll);
+                            e.preventDefault(scrollBottomPos);
                             endKey();
                             break;
                         case keyCodes.space:
                             e.preventDefault();
-                            downKey(scroll_Len.pg_scroll);
+                            downKey(pageLen);
                             break;
                         default:
                             $.noop();
@@ -759,45 +859,41 @@
             });
             
             
-            function animateSTo(scrollTarget) {
-                $docRoot.stop().animate({ scrollTop: dh + 'px' }, defaults.duration, defaults.easing);
-            }
-        
             function downKey(l) {
-                if ($docRoot.scrollTop() + l > dh) {
-                    $docRoot.stop().animate({ scrollTop: dh + 'px' }, defaults.duration, defaults.easing);
-                    target = dh;
-                } else if ( target <= dh ) {
+                if (elementToScroll.scrollTop() + l > scrollBottomPos) {
+                    elementToScroll.stop().animate({ scrollTop: scrollBottomPos + 'px' }, defaults.duration, defaults.easing);
+                    target = scrollBottomPos;
+                } else if ( target <= scrollBottomPos ) {
                     target += l;
-                    $docRoot.stop().animate({ scrollTop: target + 'px' }, defaults.duration, defaults.easing);
+                    elementToScroll.stop().animate({ scrollTop: target + 'px' }, defaults.duration, defaults.easing);
                 }
             }
 
             function upKey(l) {
-                if ($docRoot.scrollTop() - l < 0) {
-                    $docRoot.stop().animate({ scrollTop: 0 + 'px' }, defaults.duration, defaults.easing);
+                if (elementToScroll.scrollTop() - l < 0) {
+                    elementToScroll.stop().animate({ scrollTop: 0 + 'px' }, defaults.duration, defaults.easing);
                     target = 0;
                 } else if ( target >= 0 ) {
                     target -= l;
-                    $docRoot.stop().animate({ scrollTop: target + 'px'}, defaults.duration, defaults.easing);
+                    elementToScroll.stop().animate({ scrollTop: target + 'px'}, defaults.duration, defaults.easing);
                 }
             }
 
             function homeKey(l) {
                 if ( target > 0 ) {
                     target = 0;
-                    $docRoot.stop().animate({ scrollTop: target + 'px' }, defaults.duration, defaults.easing);
+                    elementToScroll.stop().animate({ scrollTop: target + 'px' }, defaults.duration, defaults.easing);
                 } else {
                     return;
                 }
             }
 
             function endKey(l) {
-                if ( target < dh ) {
-                    target = dh;
-                    $docRoot.stop().animate({ scrollTop: target + 'px'}, defaults.duration, defaults.easing);
+                if ( target < scrollBottomPos ) {
+                    target = scrollBottomPos;
+                    elementToScroll.stop().animate({ scrollTop: target + 'px'}, defaults.duration, defaults.easing);
                 } else {
-                    $docRoot.stop().animate({ scrollTop: dh + 'px'}, defaults.duration, defaults.easing);
+                    elementToScroll.stop().animate({ scrollTop: scrollBottomPos + 'px'}, defaults.duration, defaults.easing);
                     return;
                 }
             }
