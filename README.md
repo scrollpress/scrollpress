@@ -12,13 +12,11 @@ JQuery plugin to make a smooth animation on scroll top.
  * Animate self link ( href + ID )
  * Scroll between elements with custom ease and duration
  
+
 ## Setup
 ```javascript
  $(window).scrollPress({options});
 ```
-
-## Demo
-https://scrollpress.github.io/scrollpress/demo-index.html
 
 ## Options in act
 
@@ -144,8 +142,6 @@ $(window).scrollPress({
             }
 });
 ```
-
-
 ### Class to style scroll to top button
 ```css
 .scroll-btn .sb-layer { }
@@ -153,6 +149,9 @@ $(window).scrollPress({
 /* Hover style */
 .scroll-btn:hover .sb-layer { }
 ```
+
+## Demo
+https://scrollpress.github.io/scrollpress/demo-index.html
 
 ## options
  Options   |  Type    |  Default value    |  Description
