@@ -1,11 +1,10 @@
 /*
  * plugin name: scrollpress
  * Author: el-oz
- * Github: https://github.com/
+ * Github: https://github.com/scrollpress/scrollpress
  * Description: Make smooth animation on scrollTop
  * License: MIT
 */
-
 
 ;(function ( $, window, document, undefined ) {
     'use strict';
@@ -14,9 +13,7 @@
         
         $docRoot = $('body'),
         
-        docHeight = document.body.scrollHeight,
-        
-        dh = docHeight - $window.innerHeight(),
+        dh = document.body.scrollHeight - $window.innerHeight(),
         
         /**
          * Codes for keyboard scrolling keys
@@ -641,7 +638,7 @@
                             scrollOnClick_targetOT = $(targetHref).offset().top;
                             
                             // fix scrollTop incase of target scrollTop greater then viewport scrollTop
-                            if (scrollOnClick_targetOT < dh) {
+                            if (scrollOnClick_targetOT < document.body.scrollHeight - $window.innerHeight()) {
                                 
                                 $docRoot.stop().animate({
                                     scrollTop: scrollOnClick_targetOT + 'px'
@@ -649,8 +646,8 @@
                             
                             } else {
                                 $docRoot.stop().animate({
-                                    scrollTop: dh + 'px'
-                                }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing, function () {target = dh;} );
+                                    scrollTop: document.body.scrollHeight - $window.innerHeight() + 'px'
+                                }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing, function () {target = document.body.scrollHeight - $window.innerHeight();} );
                             }
                         }
                     });
@@ -664,8 +661,8 @@
                     target = scrollToOffset;
                     
                     $docRoot.stop().animate({
-                        scrollTop: (scrollToOffset >= dh) ? 
-                                    dh + 'px' :
+                        scrollTop: (scrollToOffset >= document.body.scrollHeight - $window.innerHeight()) ? 
+                                    document.body.scrollHeight - $window.innerHeight() + 'px' :
                                     scrollToOffset + 'px'
                     }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing);
                 });
@@ -689,8 +686,8 @@
                         target = scrollTOT;
                         
                         $docRoot.stop().animate({
-                            scrollTop: (scrollTOT >= dh) ? 
-                            dh + 'px' :
+                            scrollTop: (scrollTOT >= document.body.scrollHeight - $window.innerHeight()) ? 
+                            document.body.scrollHeight - $window.innerHeight() + 'px' :
                             scrollTOT + 'px'
                         }, defaults.scrollOnClick_multi[socm].duration, defaults.scrollOnClick_multi[socm].easing);
                     });
@@ -725,7 +722,7 @@
             $window.on('resize', function () {
                 pageLen = $window.innerHeight();
                 if (!is_elementHasScroll)
-                    scrollBottomPos = dh = docHeight - $window.innerHeight();
+                    scrollBottomPos = document.body.scrollHeight - $window.innerHeight();
             });
             
             // Change target position when scroll with mousewheel
@@ -738,7 +735,7 @@
         
         if (defaults.scrollPress) {
             
-            var scrollBottomPos = dh,
+            var scrollBottomPos = document.body.scrollHeight - $window.innerHeight(),
                 pageLen = scroll_Len.pg_scroll,
                 endLen = scroll_Len.end_scroll,
                 parentLoopList = [],
@@ -752,7 +749,7 @@
             
             function scrollDocOpts() {
                 is_elementHasScroll = false;
-                scrollBottomPos = dh;
+                scrollBottomPos = document.body.scrollHeight - $window.innerHeight();
                 pageLen = scroll_Len.pg_scroll;
                 target = window.pageYOffset;
                 elementToScroll = $docRoot;
@@ -844,7 +841,7 @@
                             homeKey();
                             break;
                         case keyCodes.end:
-                            e.preventDefault(scrollBottomPos);
+                            e.preventDefault(document.body.scrollHeight - $window.innerHeight());
                             endKey();
                             break;
                         case keyCodes.space:
@@ -859,10 +856,10 @@
             
             
             function downKey(l) {
-                if (elementToScroll.scrollTop() + l > scrollBottomPos) {
-                    elementToScroll.stop().animate({ scrollTop: scrollBottomPos + 'px' }, defaults.duration, defaults.easing);
-                    target = scrollBottomPos;
-                } else if ( target <= scrollBottomPos ) {
+                if (elementToScroll.scrollTop() + l > document.body.scrollHeight - $window.innerHeight()) {
+                    elementToScroll.stop().animate({ scrollTop: document.body.scrollHeight - $window.innerHeight() + 'px' }, defaults.duration, defaults.easing);
+                    target = document.body.scrollHeight - $window.innerHeight();
+                } else if ( target <= document.body.scrollHeight - $window.innerHeight() ) {
                     target += l;
                     elementToScroll.stop().animate({ scrollTop: target + 'px' }, defaults.duration, defaults.easing);
                 }
@@ -888,11 +885,11 @@
             }
 
             function endKey(l) {
-                if ( target < scrollBottomPos ) {
-                    target = scrollBottomPos;
+                if ( target < document.body.scrollHeight - $window.innerHeight() ) {
+                    target = document.body.scrollHeight - $window.innerHeight();
                     elementToScroll.stop().animate({ scrollTop: target + 'px'}, defaults.duration, defaults.easing);
                 } else {
-                    elementToScroll.stop().animate({ scrollTop: scrollBottomPos + 'px'}, defaults.duration, defaults.easing);
+                    elementToScroll.stop().animate({ scrollTop: document.body.scrollHeight - $window.innerHeight() + 'px'}, defaults.duration, defaults.easing);
                     return;
                 }
             }
