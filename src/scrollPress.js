@@ -626,28 +626,27 @@
             if (defaults.scrollOnClick.easing === null)
                 defaults.scrollOnClick.easing = defaults.easing;
             
-            // scroll on click auto detect function
+            // scroll when click on #... auto detect function
             if (defaults.scrollOnClick.autoDetect) {
                 $.each($('a'), function (i,el) {
                     $(el).on('click', function (e) {
                         var targetHref = $(el).attr('href'),
                             scrollOnClick_targetOT;
-                        
                         if ( /^#/.test(targetHref) ) {
                             e.preventDefault();
-                            scrollOnClick_targetOT = $(targetHref).offset().top;
-                            
-                            // fix scrollTop incase of target scrollTop greater then viewport scrollTop
-                            if (scrollOnClick_targetOT < document.body.scrollHeight - $window.innerHeight()) {
-                                
-                                $docRoot.stop().animate({
-                                    scrollTop: scrollOnClick_targetOT + 'px'
-                                }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing, function () {target = $docRoot.scrollTop();} );
-                            
-                            } else {
-                                $docRoot.stop().animate({
-                                    scrollTop: document.body.scrollHeight - $window.innerHeight() + 'px'
-                                }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing, function () {target = document.body.scrollHeight - $window.innerHeight();} );
+                            if ( $(targetHref)[0] ) {
+                                scrollOnClick_targetOT = $(targetHref).offset().top;
+                                // fix scrollTop incase of target scrollTop greater then viewport scrollTop
+                                if (scrollOnClick_targetOT < document.body.scrollHeight - $window.innerHeight()) {
+                                    $docRoot.stop().animate({
+                                        scrollTop: scrollOnClick_targetOT + 'px'
+                                    }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing, function () {target = $docRoot.scrollTop();} );
+
+                                } else {
+                                    $docRoot.stop().animate({
+                                        scrollTop: document.body.scrollHeight - $window.innerHeight() + 'px'
+                                    }, defaults.scrollOnClick.duration, defaults.scrollOnClick.easing, function () {target = document.body.scrollHeight - $window.innerHeight();} );
+                                }
                             }
                         }
                     });
