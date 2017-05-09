@@ -178,3 +178,7 @@ scrollOnClick | Object |    | scroll to target when click on element
 <span>&emsp;&emsp;&emsp;&emsp;&emsp;duration</span> | Number | 1400 | ScrollTop animation duration
 <span>&emsp;&emsp;&emsp;&emsp;&emsp;easing</span> | String | easing | ScrollTop animation timing function
 scrollOnClick_multi | Object |  | Like scrollOnClick but with putting options in another Object (label). Example: scrollOnClick_multi: { home: { clickOn: ... },</br> about: { ... } }
+
+
+## More info
+http://www.jquery-az.com/4-examples-of-scroll-top-with-animation-by-jquery-plug-in-scrollpress
